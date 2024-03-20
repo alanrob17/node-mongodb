@@ -507,6 +507,42 @@ main();
     ...
 </div></code></pre>
 <p>In this case we are computing a value by converting the balance to British pounds.</p>
+<h3 id="aggregation04js">aggregation04.js</h3>
+<p>We can improve on the previous example by using <code>promises</code> in our code.</p>
+<pre class="prettyprint"><code><div>const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+const uri = process.env.MONGODB_URL;
+
+const pipeline = [{
+    <span class="hljs-variable">$match</span>: { account_type: <span class="hljs-string">'savings'</span>, balance: { <span class="hljs-variable">$gt</span>: 1000 } }
+}, {
+    <span class="hljs-variable">$sort</span>: { account_holder: 1 }
+}, {
+    <span class="hljs-variable">$project</span>: {
+        _id: 0,
+        account_id: 1,
+        account_holder: 1,
+        account_type: 1,
+        gbp_balance: { <span class="hljs-variable">$divide</span>: [<span class="hljs-string">'$balance'</span>, 1.5] },
+    },
+},
+]
+
+mongoose.connect(uri)
+    .<span class="hljs-keyword">then</span>(async () =&gt; {
+        console.log(<span class="hljs-string">'Connected to MongoDB database...'</span>);
+
+        const results = await Account.aggregate(pipeline);
+        console.log(<span class="hljs-string">'Accounts with balance over $1000 (GBP):'</span>);
+        results.forEach(doc =&gt; console.log(doc));
+    })
+    .catch(error =&gt; console.error(`Error connecting to database: <span class="hljs-variable">${error}</span>`))
+    .finally(() =&gt; mongoose.disconnect());
+</div></code></pre>
 <h2 id="updating-documents">Updating documents</h2>
 <h3 id="updateone-01js">updateOne-01.js</h3>
 <p>We can use <code>filter</code> and <code>update</code> values in the update command.</p>

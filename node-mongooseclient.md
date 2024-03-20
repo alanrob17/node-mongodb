@@ -504,6 +504,46 @@ Returns.
 
 In this case we are computing a value by converting the balance to British pounds.
 
+### aggregation04.js
+
+We can improve on the previous example by using ``promises`` in our code.
+
+```bash
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const Account = require('./models/bankModel');
+
+dotenv.config({ path: './config/dev.env' });
+
+const uri = process.env.MONGODB_URL;
+
+const pipeline = [{
+    $match: { account_type: 'savings', balance: { $gt: 1000 } }
+}, {
+    $sort: { account_holder: 1 }
+}, {
+    $project: {
+        _id: 0,
+        account_id: 1,
+        account_holder: 1,
+        account_type: 1,
+        gbp_balance: { $divide: ['$balance', 1.5] },
+    },
+},
+]
+
+mongoose.connect(uri)
+    .then(async () => {
+        console.log('Connected to MongoDB database...');
+
+        const results = await Account.aggregate(pipeline);
+        console.log('Accounts with balance over $1000 (GBP):');
+        results.forEach(doc => console.log(doc));
+    })
+    .catch(error => console.error(`Error connecting to database: ${error}`))
+    .finally(() => mongoose.disconnect());
+```
+
 ## Updating documents
 
 ### updateOne-01.js
