@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="creating-a-mongodb-client-using-nodejs">Creating a MongoDB client using Node.js</h1>
+<p><a href="https://www.mongodb.com/docs/drivers/node/current/">MongoDB Node Documentation</a></p>
+<h2 id="setup">Setup</h2>
+<pre class="hljs"><code><div>    npm init -y
+</div></code></pre>
+<p>Install the MongoDB package.</p>
+<pre class="hljs"><code><div>    npm install mongodb
+</div></code></pre>
+<h2 id="files">Files</h2>
+<p>Create a file for the MongoDB connection named <code>atlas_uri.js</code>.</p>
+<p>Add your connection string.</p>
+<pre class="hljs"><code><div>module.exports = { 
+    uri: <span class="hljs-string">"mongodb://alan:test123@localhost:27018/?retryWrites=true&amp;w=majority&amp;authSource=admin"</span> 
+}
+</div></code></pre>
+<p>Create the main entrypoint for our application named <code>app.js</code>. Use this code to test the connection string.</p>
+<pre class="hljs"><code><div>    const { MongoClient } = require(<span class="hljs-string">'mongodb'</span>);
+    const { uri } = require(<span class="hljs-string">'./atlas_uri'</span>);
+
+    console.log(uri);
+</div></code></pre>
+<p>Returns.</p>
+<blockquote>
+<p>mongodb://alan:test123@localhost:27018/?retryWrites=true&amp;w=majority&amp;authSource=admin</p>
+</blockquote>
+<p>Now search for a list of databases.</p>
+<pre class="hljs"><code><div>const { MongoClient } = require(<span class="hljs-string">'mongodb'</span>);
+const { uri } = require(<span class="hljs-string">'./atlas_uri'</span>);
+
+const client = new MongoClient(uri);
+const dbname = <span class="hljs-string">'bank'</span>;
+
+const connectToDatabase = async () =&gt; {
+    try {
+        await client.connect();
+        console.log(`Connected to the <span class="hljs-variable">${dbname}</span> database...`);
+
+    } catch (error) {
+        console.error(`Error connecting to the <span class="hljs-variable">${dbname}</span> database...`);
+    }
+};
+
+const main = async () =&gt; {
+    try {
+        await connectToDatabase();
+        const dbList = await client.db().admin().listDatabases();
+        dbList.databases.forEach(db =&gt; console.log(` - <span class="hljs-variable">${db.name}</span>`));
+    } catch (error) {
+        console.error(`Error connecting to the <span class="hljs-variable">${dbname}</span> database: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await client.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>Returns.</p>
+<blockquote>
+<p>Connected to the bank database...</p>
+<ul>
+<li>admin</li>
+<li>bookAPI</li>
+<li>config</li>
+<li>family</li>
+<li>flights</li>
+<li>local</li>
+<li>record-db</li>
+</ul>
+</blockquote>
+<h3 id="network-issues">network issues</h3>
+<p>This code works fie on a local connection but when you are working in MongoDB Atlas Cloud you will have to add your IP address into the <strong>Network Access</strong> list.</p>
+<h2 id="mongodb-crud-operations-in-nodejs">MongoDB CRUD operations in Node.js</h2>
+<h3 id="insertone">insertOne()</h3>
+<p>Create a new file, <code>insert.js</code> to insert a document into a collection.</p>
+<h4 id="insertjs">insert.js</h4>
+<pre class="hljs"><code><div>const { MongoClient } = require(<span class="hljs-string">'mongodb'</span>);
+const { uri } = require(<span class="hljs-string">'./atlas_uri'</span>);
+
+const client = new MongoClient(uri);
+const dbname = <span class="hljs-string">'bank'</span>;
+
+const account = {
+    account_id: <span class="hljs-string">"MDB999569384"</span>,
+    account_holder: <span class="hljs-string">"James Robson"</span>,
+    account_type: <span class="hljs-string">"checking"</span>,
+    balance: 2956.89,
+    transfers_complete: [
+        <span class="hljs-string">"TR16523347"</span>,
+        <span class="hljs-string">"TR16523346"</span>,
+        <span class="hljs-string">"TR16523345"</span>,
+        <span class="hljs-string">"TR16523344"</span>,
+        <span class="hljs-string">"TR16523343"</span>,
+    ],
+    address: {
+        city: <span class="hljs-string">"PineTree"</span>,
+        postcode: 3446,
+        street: <span class="hljs-string">"Jones St"</span>,
+        number: 12
+    },
+};
+
+const main = async () =&gt; {
+    try {
+        await client.connect();
+
+        const database = client.db(dbname);
+        const accounts = database.collection(<span class="hljs-string">'accounts'</span>);
+        const result = await accounts.insertOne(account);
+        console.log(result);
+    } catch (error) {
+        console.error(`Error connecting to the <span class="hljs-variable">${dbname}</span> database: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await client.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>This inserts one document into the database.</p>
+<pre class="hljs"><code><div>    [{
+        _id: ObjectId(<span class="hljs-string">'65f27156a4c3bfb4d9583b79'</span>),
+        account_id: <span class="hljs-string">'MDB999569384'</span>,
+        account_holder: <span class="hljs-string">'James Robson'</span>,
+        account_type: <span class="hljs-string">'checking'</span>,
+        balance: 2956.89,
+        transfers_complete: [
+          <span class="hljs-string">'TR16523347'</span>,
+          <span class="hljs-string">'TR16523346'</span>,
+          <span class="hljs-string">'TR16523345'</span>,
+          <span class="hljs-string">'TR16523344'</span>,
+          <span class="hljs-string">'TR16523343'</span>
+        ],
+        address: {
+          city: <span class="hljs-string">'PineTree'</span>,
+          postcode: 3446,
+          street: <span class="hljs-string">'Jones St'</span>,
+          number: 12
+        }
+      }
+    ]
+</div></code></pre>
+<h4 id="insertmanyjs">insertMany.js</h4>
+<pre class="hljs"><code><div>const { MongoClient } = require(<span class="hljs-string">'mongodb'</span>);
+const { uri } = require(<span class="hljs-string">'./atlas_uri'</span>);
+
+const client = new MongoClient(uri);
+const dbname = <span class="hljs-string">'bank'</span>;
+const collectionName = <span class="hljs-string">'accounts'</span>;
+
+const accountsCollection = client.db(dbname).collection(collectionName);
+
+const sampleAccounts = [
+    {
+        account_id: <span class="hljs-string">"MDB999566859"</span>,
+        account_holder: <span class="hljs-string">"Bert Robson"</span>,
+        account_type: <span class="hljs-string">"checking"</span>,
+        balance: 2256.89,
+        last_updated: new Date(),
+    },
+    {
+        account_id: <span class="hljs-string">"MDB999566369"</span>,
+        account_holder: <span class="hljs-string">"Giovanny Robson"</span>,
+        account_type: <span class="hljs-string">"checking"</span>,
+        balance: 6556.89,
+        last_updated: new Date(),
+    },
+]
+
+const main = async () =&gt; {
+    try {
+        await client.connect();
+
+        const result = await accountsCollection.insertMany(sampleAccounts);
+        console.log(`Inserted <span class="hljs-variable">${result.insertedCount}</span> documents.`);
+    } catch (error) {
+        console.error(`Error connecting to the <span class="hljs-variable">${dbname}</span> database: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await client.close();
+    }
+};
+
+main();
+</div></code></pre>
+<h3 id="findone">findOne()</h3>
+<h4 id="find01js">find01.js</h4>
+<pre class="hljs"><code><div>const { MongoClient } = require(<span class="hljs-string">'mongodb'</span>);
+const { uri } = require(<span class="hljs-string">'./atlas_uri'</span>);
+
+const client = new MongoClient(uri);
+const dbname = <span class="hljs-string">'bank'</span>;
+const collectionName = <span class="hljs-string">'accounts'</span>;
+
+const accountsCollection = client.db(dbname).collection(collectionName);
+
+const query = { account_holder: <span class="hljs-string">"Alan Robson"</span> };
+
+const options = {
+
+    // Sort matched documents <span class="hljs-keyword">in</span> descending order by rating
+    sort: { <span class="hljs-string">"account_holder"</span>: -1 },
+
+    projection: { _id: 0, account_id: 1, account_holder: 1 },
+};
+
+const main = async () =&gt; {
+    try {
+        await client.connect();
+
+        const account = await accountsCollection.findOne(query, options);
+        console.log(account);
+    } catch (error) {
+        console.error(`Error connecting to the <span class="hljs-variable">${dbname}</span> database: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await client.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>Returns:</p>
+<blockquote>
+<p>{ account_id: 'MDB999569387', account_holder: 'Alan Robson' }</p>
+</blockquote>
+<h3 id="find">find()</h3>
+<p>Find a number of documents bases on a regular expression query.</p>
+<h4 id="findmanyjs">findMany.js</h4>
+<pre class="hljs"><code><div>const { MongoClient } = require(<span class="hljs-string">'mongodb'</span>);
+const { uri } = require(<span class="hljs-string">'./atlas_uri'</span>);
+
+const client = new MongoClient(uri);
+const dbname = <span class="hljs-string">'bank'</span>;
+const collectionName = <span class="hljs-string">'accounts'</span>;
+
+const accountsCollection = client.db(dbname).collection(collectionName);
+
+const query = { account_holder: { <span class="hljs-string">"<span class="hljs-variable">$regex</span>"</span>: /Robson/ } };
+
+const options = {
+
+    // Sort matched documents <span class="hljs-keyword">in</span> descending order by rating
+    sort: { <span class="hljs-string">"account_holder"</span>: -1 },
+
+    projection: { _id: 0, account_id: 1, account_holder: 1 },
+};
+
+const main = async () =&gt; {
+    try {
+        await client.connect();
+
+        const cursor = await accountsCollection.find(query, options);
+
+        <span class="hljs-keyword">if</span> ((await cursor.countDocuments) === 0) {
+            console.log(<span class="hljs-string">"No documents found!"</span>);
+        }
+
+        <span class="hljs-keyword">for</span> await (const doc of cursor) {
+            console.dir(doc);
+        }
+    } catch (error) {
+        console.error(`Error connecting to the <span class="hljs-variable">${dbname}</span> database: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await client.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>Returns.</p>
+<blockquote>
+<p>{ account_id: 'MDB999569384', account_holder: 'James Robson' }<br>
+{ account_id: 'MDB999566369', account_holder: 'Giovanny Robson' }<br>
+{ account_id: 'MDB999569459', account_holder: 'Ethan Robson' }<br>
+{ account_id: 'MDB999569369', account_holder: 'Chris Robson' }<br>
+{ account_id: 'MDB999569389', account_holder: 'Charley Robson' }<br>
+{ account_id: 'MDB999567869', account_holder: 'Bert Robson' }<br>
+{ account_id: 'MDB999566859', account_holder: 'Bert Robson' }<br>
+{ account_id: 'MDB999567859', account_holder: 'Andrew Robson' }<br>
+{ account_id: 'MDB999569387', account_holder: 'Alan Robson' }</p>
+</blockquote>
+<p>Another complex query.</p>
+<h4 id="find03js">find03.js</h4>
+<pre class="hljs"><code><div>const { MongoClient } = require(<span class="hljs-string">'mongodb'</span>);
+const { uri } = require(<span class="hljs-string">'./atlas_uri'</span>);
+
+const client = new MongoClient(uri);
+const dbname = <span class="hljs-string">'bank'</span>;
+const collectionName = <span class="hljs-string">'accounts'</span>;
+
+const accountsCollection = client.db(dbname).collection(collectionName);
+
+const query = { balance: { <span class="hljs-variable">$gt</span>: 3000 } };
+
+const options = {
+
+    // Sort matched documents <span class="hljs-keyword">in</span> ascending order by rating
+    sort: { <span class="hljs-string">"account_holder"</span>: 1 },
+
+    projection: { _id: 0, account_id: 1, account_holder: 1 },
+};
+
+const main = async () =&gt; {
+    try {
+        await client.connect();
+
+        const cursor = await accountsCollection.find(query, options);
+
+        <span class="hljs-keyword">if</span> ((await cursor.countDocuments) === 0) {
+            console.log(<span class="hljs-string">"No documents found!"</span>);
+        }
+
+        <span class="hljs-keyword">for</span> await (const doc of cursor) {
+            console.dir(doc);
+        }
+    } catch (error) {
+        console.error(`Error connecting to the <span class="hljs-variable">${dbname}</span> database: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await client.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>Returns.</p>
+<blockquote>
+<p>{ account_id: 'MDB999569389', account_holder: 'Charley Robson' }<br>
+{ account_id: 'MDB999569369', account_holder: 'Chris Robson' }<br>
+{ account_id: 'MDB999566369', account_holder: 'Giovanny Robson' }</p>
+</blockquote>
+<h3 id="updatemany">updateMany()</h3>
+<p>I made a type in one of the account holder's names.</p>
+<pre class="hljs"><code><div>const { MongoClient } = require(<span class="hljs-string">'mongodb'</span>);
+const { uri } = require(<span class="hljs-string">'./atlas_uri'</span>);
+
+const client = new MongoClient(uri);
+const dbname = <span class="hljs-string">'bank'</span>;
+const collectionName = <span class="hljs-string">'accounts'</span>;
+
+const accountsCollection = client.db(dbname).collection(collectionName);
+
+// Create a filter to update all movies with a <span class="hljs-string">'G'</span> rating
+const filter = { account_holder: <span class="hljs-string">"Giovanny Robson"</span> };
+
+const updateDoc = {
+    <span class="hljs-variable">$set</span>: {
+        account_holder: <span class="hljs-string">'Giovanni Robson'</span>,
+    },
+};
+
+const main = async () =&gt; {
+    try {
+        await client.connect();
+
+        const result = await accountsCollection.updateMany(filter, updateDoc);
+        console.log(`Updated <span class="hljs-variable">${result.modifiedCount}</span> documents`);
+    } catch (error) {
+        console.error(`Error connecting to the <span class="hljs-variable">${dbname}</span> database: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await client.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>Returns.</p>
+<blockquote>
+<p>Updated 1 documents</p>
+</blockquote>
+<h3 id="deleteone">deleteOne()</h3>
+<p>I have added 2 documents with the same <code>account_holder</code> name. I can delete on the <code>account_id</code> field which is unique.</p>
+<h4 id="deleteonejs">deleteOne.js</h4>
+<pre class="hljs"><code><div>const { MongoClient } = require(<span class="hljs-string">'mongodb'</span>);
+const { uri } = require(<span class="hljs-string">'./atlas_uri'</span>);
+
+const client = new MongoClient(uri);
+const dbname = <span class="hljs-string">'bank'</span>;
+const collectionName = <span class="hljs-string">'accounts'</span>;
+
+const accountsCollection = client.db(dbname).collection(collectionName);
+
+
+const main = async () =&gt; {
+    try {
+        await client.connect();
+
+        // delete the first record with this account_id
+        const query = { account_id: <span class="hljs-string">'MDB999566859'</span> };
+        const result = await accountsCollection.deleteOne(query);
+
+        <span class="hljs-keyword">if</span> (result.deletedCount === 1) {
+            console.log(<span class="hljs-string">"Successfully deleted one document."</span>);
+        } <span class="hljs-keyword">else</span> {
+            console.log(<span class="hljs-string">"No documents matched the query. Deleted 0 documents."</span>);
+        }
+    } catch (error) {
+        console.error(`Error connecting to the <span class="hljs-variable">${dbname}</span> database: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await client.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>returns.</p>
+<blockquote>
+<p>Successfully deleted one document.</p>
+</blockquote>
+<h3 id="deleting-by-id">Deleting by _id</h3>
+<p>I had issues deleting a document by its <code>_id</code>. To get around this you have to build a MongoDB object for the <code>_id</code>.</p>
+<p>Change the import statement for <code>mongodb</code>.</p>
+<pre class="hljs"><code><div>    const { MongoClient, ObjectId } = require(<span class="hljs-string">'mongodb'</span>);
+</div></code></pre>
+<p>Here we add the <code>ObjectId</code> method.</p>
+<p>In out code we have to create a <strong>new</strong> <code>ObjectId</code>.</p>
+<pre class="hljs"><code><div>    const query = { _id: new ObjectId(<span class="hljs-string">'65f278b50d791680df86d70c'</span>) };
+</div></code></pre>
+<p>This will allow you to delete a document by its <code>_id</code>.</p>
+<p>full code.</p>
+<pre class="hljs"><code><div>const { MongoClient, ObjectId } = require(<span class="hljs-string">'mongodb'</span>);
+const { uri } = require(<span class="hljs-string">'./atlas_uri'</span>);
+
+const client = new MongoClient(uri);
+const dbname = <span class="hljs-string">'bank'</span>;
+const collectionName = <span class="hljs-string">'accounts'</span>;
+
+const accountsCollection = client.db(dbname).collection(collectionName);
+
+const query = { _id: new ObjectId(<span class="hljs-string">'65f278b50d791680df86d70c'</span>) };
+
+const main = async () =&gt; {
+    try {
+        await client.connect();
+
+        // delete the first record with this account_id
+        <span class="hljs-built_in">let</span> result = await accountsCollection.deleteOne(query);
+
+        <span class="hljs-keyword">if</span> (result.deletedCount === 1) {
+            console.log(<span class="hljs-string">"Successfully deleted one document."</span>);
+        } <span class="hljs-keyword">else</span> {
+            console.log(<span class="hljs-string">"No documents matched the query. Deleted 0 documents."</span>);
+        }
+    } catch (error) {
+        console.error(`Error connecting to the <span class="hljs-variable">${dbname}</span> database: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await client.close();
+    }
+};
+
+main();
+</div></code></pre>
+<h3 id="deletemany">deleteMany()</h3>
+<p>We can delete a number of documents from a collection with <code>deleteMany()</code>.</p>
+<pre class="hljs"><code><div>const query = { balance: { <span class="hljs-variable">$lt</span>: 2000 } };
+
+const main = async () =&gt; {
+    try {
+        await client.connect();
+
+        <span class="hljs-built_in">let</span> result = await accountsCollection.deleteMany(query);
+
+        <span class="hljs-keyword">if</span> (result.deletedCount &gt; 0) {
+            console.log(`Successfully deleted <span class="hljs-variable">${result.deletedCount}</span> documents.`);
+        } <span class="hljs-keyword">else</span> {
+            console.log(`No documents matched the query. Deleted <span class="hljs-variable">${result.deletedCount}</span> documents.`);
+        }
+        ...
+</div></code></pre>
+<p>returns.</p>
+<blockquote>
+<p>Successfully deleted 2 documents.</p>
+</blockquote>
+<p><strong>Note:</strong> deleting documents with an empty query will <strong>delete</strong> all documents from a collection.</p>
+<h2 id="aggregation-framework">Aggregation framework</h2>
+<p>Is use to build multi-staged queries. The query comprises of three stages.</p>
+<ul>
+<li>$match</li>
+<li>$sort</li>
+<li>$project</li>
+</ul>
+<p>Each stage offers output document as input for the next stage. These stages are referred to as an <strong>aggregation pipeline</strong>.</p>
+<p>If you can get away with just the <code>.find()</code> method then use it. Otherwise use the aggregation pipeline framework which is essentially a superset of <code>.find()</code>.</p>
+<p>The aggregation framework is more powerful than <code>.find()</code> and has more primitive operations.</p>
+<p>Aggregation frameworks have built in stages for processing documents.</p>
+<ul>
+<li>Finding</li>
+<li>Sorting</li>
+<li>Grouping</li>
+<li>Projecting</li>
+</ul>
+<p>These aggregation pipelines make it easier to debug and maintain individual stages. It makes it easier for MongoDB to rewrite and optimise the queries.</p>
+<p>An aggregation pipeline can have one or more stages. A stage can use expression variables such as session variables, literal operators and expression objects.</p>
+<p>We can think of expression operators as being similar to functions that take in field values as their arguments to compute new field values.</p>
+<p>An example.</p>
+<pre class="hljs"><code><div>[
+    {
+        _id: ObjectId(<span class="hljs-string">'65f27156a4c3bfb4d9583b79'</span>),
+        account_id: <span class="hljs-string">'MDB999569384'</span>,
+        account_holder: <span class="hljs-string">'James Robson'</span>,
+        account_type: <span class="hljs-string">'checking'</span>,
+        balance: Decimal28(<span class="hljs-string">'2956'</span>),
+        transfers_complete: [
+          <span class="hljs-string">'TR16523347'</span>,
+          <span class="hljs-string">'TR16523346'</span>,
+          <span class="hljs-string">'TR16523345'</span>,
+          <span class="hljs-string">'TR16523344'</span>,
+          <span class="hljs-string">'TR16523343'</span>
+        ]
+    }
+]
+</div></code></pre>
+<p>Aggregation pipeline.</p>
+<pre class="hljs"><code><div>    var pipeline = [{
+        <span class="hljs-variable">$match</span>: {
+            account_type: <span class="hljs-string">'savings'</span>,
+            balance: {
+                <span class="hljs-variable">$gt</span>: 1000
+            }
+        }
+    }, {
+        <span class="hljs-variable">$project</span>: {
+            _id: 0,
+            account_holder: {
+                <span class="hljs-variable">$toUpper</span>: <span class="hljs-string">'$account_holder'</span>
+            },
+            balance: 1,
+            Account_type: {
+                <span class="hljs-variable">$toUpper</span>: <span class="hljs-string">'$account_type'</span>
+            }
+        }
+    }]
+</div></code></pre>
+<p>We can use this in the following code.</p>
+<h4 id="aggregationjs">aggregation.js</h4>
+<pre class="hljs"><code><div>const { MongoClient } = require(<span class="hljs-string">'mongodb'</span>);
+const { uri } = require(<span class="hljs-string">'./atlas_uri'</span>);
+
+const client = new MongoClient(uri);
+const dbname = <span class="hljs-string">'bank'</span>;
+
+var pipeline = [{
+    <span class="hljs-variable">$match</span>: {
+        account_type: <span class="hljs-string">'savings'</span>,
+        balance: {
+            <span class="hljs-variable">$gt</span>: 1000
+        }
+    }
+}, {
+    <span class="hljs-variable">$project</span>: {
+        _id: 0,
+        account_holder: {
+            <span class="hljs-variable">$toUpper</span>: <span class="hljs-string">'$account_holder'</span>
+        },
+        balance: 1,
+        Account_type: {
+            <span class="hljs-variable">$toUpper</span>: <span class="hljs-string">'$account_type'</span>
+        }
+    }
+}]
+
+const main = async () =&gt; {
+    try {
+        await client.connect();
+
+        const database = client.db(dbname);
+        const accounts = database.collection(<span class="hljs-string">'accounts'</span>);
+        const result = await accounts.aggregate(pipeline);
+        <span class="hljs-keyword">for</span> await (const doc of result) {
+            console.log(doc);
+        }
+    } catch (error) {
+        console.error(`Error connecting to the <span class="hljs-variable">${dbname}</span> database: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await client.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>Returns.</p>
+<pre class="hljs"><code><div>    {
+      balance: 2956.96,
+      account_holder: <span class="hljs-string">'ALAN ST JOHN'</span>,
+      Account_type: <span class="hljs-string">'SAVINGS'</span>
+    }
+</div></code></pre>
+<p>Another aggregation example using <code>$match</code> and <code>$group</code>.</p>
+<h4 id="aggregation02js">aggregation02.js</h4>
+<pre class="hljs"><code><div>const { MongoClient } = require(<span class="hljs-string">'mongodb'</span>);
+const { uri } = require(<span class="hljs-string">'./atlas_uri'</span>);
+
+const client = new MongoClient(uri);
+const dbname = <span class="hljs-string">'bank'</span>;
+
+var pipeline = [{
+    <span class="hljs-variable">$match</span>: { balance: { <span class="hljs-variable">$gt</span>: 1000 } }
+}, {
+    <span class="hljs-variable">$group</span>: {
+        _id: <span class="hljs-string">'$account_type'</span>,
+        total_balance: { <span class="hljs-variable">$sum</span>: <span class="hljs-string">'$balance'</span> },
+        average_balance: { <span class="hljs-variable">$avg</span>: <span class="hljs-string">'$balance'</span> },
+    },
+}]
+
+const main = async () =&gt; {
+    try {
+        await client.connect();
+
+        const database = client.db(dbname);
+        const accounts = database.collection(<span class="hljs-string">'accounts'</span>);
+        const result = await accounts.aggregate(pipeline);
+        <span class="hljs-keyword">for</span> await (const doc of result) {
+            console.log(doc);
+        }
+    } catch (error) {
+        console.error(`Error connecting to the <span class="hljs-variable">${dbname}</span> database: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await client.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>Results:</p>
+<pre class="hljs"><code><div>    { _id: <span class="hljs-string">'savings'</span>, total_balance: 2956.96, average_balance: 2956.96 }
+    {
+      _id: <span class="hljs-string">'checking'</span>,
+      total_balance: 31668.9,
+      average_balance: 3166.8900000000003
+    }
+</div></code></pre>
+<p>Now we will do another aggregation example with the <code>$match</code>, <code>$sort</code> and <code>$project</code>.</p>
+<p><code>$sort</code> uses 1 for ascending sorts and -1 for descending sorts.</p>
+<p>The projection creates a new computed variable <code>gbp_balance</code> where we create a balance that is converted to British pounds.</p>
+<h4 id="aggregation03js">aggregation03.js</h4>
+<pre class="hljs"><code><div>const { MongoClient } = require(<span class="hljs-string">'mongodb'</span>);
+const { uri } = require(<span class="hljs-string">'./atlas_uri'</span>);
+
+const client = new MongoClient(uri);
+const dbname = <span class="hljs-string">'bank'</span>;
+
+var pipeline = [{
+    <span class="hljs-variable">$match</span>: { account_type: <span class="hljs-string">'checking'</span>, balance: { <span class="hljs-variable">$gt</span>: 1000 } }
+}, {
+    <span class="hljs-variable">$sort</span>: { balance: -1 }
+}, {
+    <span class="hljs-variable">$project</span>: {
+        _id: 0,
+        account_id: 1,
+        account_type: 1,
+        gbp_balance: { <span class="hljs-variable">$divide</span>: [<span class="hljs-string">'$balance'</span>, 1.5] },
+    },
+},
+]
+
+const main = async () =&gt; {
+    try {
+        await client.connect();
+
+        const database = client.db(dbname);
+        const accounts = database.collection(<span class="hljs-string">'accounts'</span>);
+        const result = await accounts.aggregate(pipeline);
+        <span class="hljs-keyword">for</span> await (const doc of result) {
+            console.log(doc);
+        }
+    } catch (error) {
+        console.error(`Error connecting to the <span class="hljs-variable">${dbname}</span> database: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await client.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>Results.</p>
+<pre class="hljs"><code><div>    {
+      account_id: <span class="hljs-string">'MDB999569369'</span>,
+      account_type: <span class="hljs-string">'checking'</span>,
+      gbp_balance: 4371.26
+    }
+    {
+      account_id: <span class="hljs-string">'MDB999569389'</span>,
+      account_type: <span class="hljs-string">'checking'</span>,
+      gbp_balance: 3304.5933333333337
+    }
+    {
+      account_id: <span class="hljs-string">'MDB999569384'</span>,
+      account_type: <span class="hljs-string">'checking'</span>,
+      gbp_balance: 1971.26
+    }
+    {
+      account_id: <span class="hljs-string">'MDB999569459'</span>,
+      account_type: <span class="hljs-string">'checking'</span>,
+      gbp_balance: 1504.5933333333332
+    }
+</div></code></pre>
+<h2 id="mongoose">Mongoose</h2>
+<p>All of these examples have been created in <strong>MongoDB</strong> code and there is another way to reduce the amount of typing. We can use the Mongoose package which has a lot of options that can be used with Node.js.</p>
+<p>See <strong>MongooseClient</strong> for the Mongoose versions of this code.</p>
+<h3 id="a-mongoose-example">A Mongoose example</h3>
+<p>For this example we need to install some more packages.</p>
+<p>Install the Mongoose package.</p>
+<pre class="hljs"><code><div>    npm install mongoose
+</div></code></pre>
+<p>Install the Dotenv package.</p>
+<pre class="hljs"><code><div>    npm install dotenv
+</div></code></pre>
+<h4 id="modelsbankmodeljs">./models/bankModel.js</h4>
+<pre class="hljs"><code><div>    const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+
+    const bankSchema = new mongoose.Schema({
+        account_id: String,
+        account_type: String,
+        balance: Number
+    });
+
+    module.exports = mongoose.model(<span class="hljs-string">'Account'</span>, bankSchema);
+</div></code></pre>
+<p>This is the schema that Mongoose requires for modelling the data.</p>
+<h4 id="mongoosejs">mongoose.js</h4>
+<pre class="hljs"><code><div>const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+const uri = process.env.MONGODB_URL;
+mongoose.connect(uri);
+const db = mongoose.connection;
+db.on(<span class="hljs-string">'error'</span>, console.error.bind(console, <span class="hljs-string">'MongoDB connection error:'</span>));
+db.once(<span class="hljs-string">'open'</span>, () =&gt; console.log(<span class="hljs-string">'Connected to MongoDB'</span>));
+
+const pipeline = [
+    {
+        <span class="hljs-variable">$match</span>: { account_type: <span class="hljs-string">'savings'</span>, balance: { <span class="hljs-variable">$gt</span>: 1000 } }
+    },
+    {
+        <span class="hljs-variable">$sort</span>: { balance: -1 }
+    },
+    {
+        <span class="hljs-variable">$project</span>: {
+            _id: 0,
+            account_id: 1,
+            account_type: 1,
+            gbp_balance: { <span class="hljs-variable">$divide</span>: [<span class="hljs-string">'$balance'</span>, 1.5] },
+        },
+    },
+];
+
+const main = async () =&gt; {
+    try {
+        const result = await Account.aggregate(pipeline);
+
+        <span class="hljs-keyword">if</span> (result.length === 0) {
+            console.log(<span class="hljs-string">"No documents found!"</span>);
+        } <span class="hljs-keyword">else</span> {
+            result.forEach((doc) =&gt; {
+                console.log(doc);
+            });
+        }
+    } catch (error) {
+        console.error(`Error querying the database: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        mongoose.connection.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>Returns.</p>
+<pre class="hljs"><code><div>    Connected to MongoDB...
+    {
+      account_id: <span class="hljs-string">'MDB999569532'</span>,
+      account_type: <span class="hljs-string">'savings'</span>,
+      gbp_balance: 1971.3066666666666
+    }
+    {
+      account_id: <span class="hljs-string">'MDB999569567'</span>,
+      account_type: <span class="hljs-string">'savings'</span>,
+      gbp_balance: 1971.26
+    }
+    {
+      account_id: <span class="hljs-string">'MDB999569678'</span>,
+      account_type: <span class="hljs-string">'savings'</span>,
+      gbp_balance: 1065.3333333333333
+    }
+</div></code></pre>
+<h3 id="how-does-mongoose-work">How does Mongoose work?</h3>
+<p>In the previous example, Mongoose knows how to find documents in the <code>accounts</code> collection based on the model definition and the connection to the MongoDB database.</p>
+<p><strong>Model Definition:</strong> When you define a Mongoose model using mongoose.model, you provide a name for the model (in this case, '<code>Account</code>') and a schema (in this case, <code>accountSchema</code>). This associates the model with a specific MongoDB collection. In this case, the <code>Account</code> model is associated with the <code>accounts</code> collection.</p>
+<p><strong>Connection to the MongoDB Database:</strong> When you establish a connection to the MongoDB database using mongoose.connect, Mongoose internally maintains a connection pool and keeps track of the schemas and models associated with the database. This allows Mongoose to know which collection corresponds to each model.</p>
+<p>So, when you perform operations using the <code>Account</code> model (e.g., querying documents), Mongoose automatically translates those operations into MongoDB queries targeting the <code>accounts</code> collection.</p>
+
+</body>
+</html>

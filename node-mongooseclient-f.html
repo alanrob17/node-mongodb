@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Node Mongoose client examples</title>
+<link href="assets/css/bootstrap.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="assets/css/starter-template.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=css&amp;skin=sunburst"></script>
+<style type="text/css">
+html {
+	font-size: 90.0%;
+}
+
+h2 {
+	margin-top: 60px;
+}
+
+h4, h3 {
+	padding-top: 40px!;		
+}
+
+p {
+	font-size: 1.2em;
+}
+h4 {
+	font-size: 1.4em;
+}
+
+img, pre.prettyprint {
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+    color:#007bff;
+
+}
+blockquote {
+    border-left: 4px solid #999;
+    padding-left: 1rem;
+    page-break-inside: avoid;
+}
+</style>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Node Mongoose client examples</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Node Mongoose <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container">
+    <div class="starter-template">
+
+<h1 id="node-mongoose-client-examples">Node Mongoose client examples</h1>
+<p><strong>Source:</strong> D:\Project-Examples\node-mongodb\mongooseClient</p>
+<h2 id="setup">Setup</h2>
+<p>Initialise the project.</p>
+<pre class="prettyprint"><code><div>    npm init -y
+</div></code></pre>
+<p>Install the Mongoose package.</p>
+<pre class="prettyprint"><code><div>    npm install mongoose
+</div></code></pre>
+<p>Install the Dotenv package.</p>
+<pre class="prettyprint"><code><div>    npm install dotenv
+</div></code></pre>
+<h3 id="testing">Testing</h3>
+<h4 id="appjs">app.js</h4>
+<pre class="prettyprint"><code><div>    const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+    const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+
+    dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+    console.log(process.env.MONGODB_URL);
+</div></code></pre>
+<p>Returns.</p>
+<blockquote>
+<p>mongodb://alan:test123@localhost:27018/record-db?authSource=admin</p>
+</blockquote>
+<p>This tells us our <strong>env</strong> file is working.</p>
+<h2 id="creating-a-model">Creating a model</h2>
+<p>Mongoose works on a model of your data. In our case we have a <code>bankModel</code> based on our accounts collection.</p>
+<h3 id="bankmodeljs">bankModel.js</h3>
+<pre class="prettyprint"><code><div>    const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+
+    const bankSchema = new mongoose.Schema({
+        account_id: String,
+        account_holder: String,
+        account_type: String,
+        balance: Number
+    });
+
+    module.exports = mongoose.model(<span class="hljs-string">'Account'</span>, bankSchema);
+</div></code></pre>
+<p>You make a schema of your collection. The <code>exports</code> statement exports a model (<code>Account</code>) of your collection.</p>
+<p><strong>Note:</strong> Mongoose associates your <code>accounts</code> collection with your <code>Account</code> model. You don't have to refer to your <code>accounts</code> collection.</p>
+<p>In your JavaScript code you access your mode l with.</p>
+<pre class="prettyprint"><code><div>    const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+</div></code></pre>
+<h2 id="inserting-documents">Inserting documents</h2>
+<h3 id="insertonejs">insertOne.js</h3>
+<pre class="prettyprint"><code><div>    const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+    const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+    const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+    dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+    const uri = process.env.MONGODB_URL;
+
+    const main = async () =&gt; {
+        try {
+            await mongoose.connect(uri);
+
+            console.log(<span class="hljs-string">'Connected to MongoDB...\n'</span>);
+
+            // Create a new account document
+            const account = new Account({
+                account_id: <span class="hljs-string">'MDB999569889'</span>,
+                account_holder: <span class="hljs-string">'Ethan Robson'</span>,
+                account_type: <span class="hljs-string">'savings'</span>,
+                balance: 245.75
+            });
+
+            // Save the account document to the database
+            const result = await account.save();
+            console.log(result._id);
+        } catch (error) {
+            console.error(`Error: <span class="hljs-variable">${error}</span>`);
+        } finally {
+            await mongoose.connection.close();
+        }
+    };
+
+    main();
+</div></code></pre>
+<p>You can insert a number of documents in one process.</p>
+<h3 id="insertmanyjs">insertMany.js</h3>
+<pre class="prettyprint"><code><div>    const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+    const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+    const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+    dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+    const uri = process.env.MONGODB_URL;
+
+    const main = async () =&gt; {
+        try {
+            await mongoose.connect(uri);
+
+            console.log(<span class="hljs-string">'Connected to MongoDB...\n'</span>);
+
+            const sampleAccounts = [
+                {
+                    account_id: <span class="hljs-string">'MDB999569985'</span>,
+                    account_holder: <span class="hljs-string">'Bert Smith'</span>,
+                    account_type: <span class="hljs-string">'savings'</span>,
+                    balance: 1745.67
+                },
+                {
+                    account_id: <span class="hljs-string">'MDB999569986'</span>,
+                    account_holder: <span class="hljs-string">'Andrew Jones'</span>,
+                    account_type: <span class="hljs-string">'savings'</span>,
+                    balance: 1985.99
+                },
+                {
+                    account_id: <span class="hljs-string">'MDB999569987'</span>,
+                    account_holder: <span class="hljs-string">'Bob Mongo'</span>,
+                    account_type: <span class="hljs-string">'savings'</span>,
+                    balance: 456.75
+                }
+            ];
+
+            const accounts = await Account.insertMany(sampleAccounts);
+            accounts.forEach(account =&gt; {
+                console.log(account._id);
+            });
+        } catch (error) {
+            console.error(`Error: <span class="hljs-variable">${error}</span>`);
+        } finally {
+            await mongoose.connection.close();
+        }
+    };
+
+    main();
+</div></code></pre>
+<h2 id="finding-documents">Finding documents</h2>
+<h3 id="appjs">app.js</h3>
+<pre class="prettyprint"><code><div>const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+const uri = process.env.MONGODB_URL;
+
+const main = async () =&gt; {
+    try {
+        await mongoose.connect(uri);
+
+        console.log(<span class="hljs-string">'Connected to MongoDB...\n'</span>);
+
+        const result = await Account.find({ balance: { <span class="hljs-variable">$gt</span>: 1000 } });
+
+        result.forEach(item =&gt; {
+            console.log(item);
+        });
+    } catch (error) {
+        console.error(`Error: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await mongoose.connection.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>Returns.</p>
+<pre class="prettyprint"><code><div>    Connected to MongoDB...
+
+    {
+      _id: new ObjectId(<span class="hljs-string">'65f91fed4a2f156e0a7693d3'</span>),
+      account_id: <span class="hljs-string">'MDB999569234'</span>,
+      account_holder: <span class="hljs-string">'James Robson'</span>,
+      account_type: <span class="hljs-string">'savings'</span>,
+      balance: 2345.99,
+      __v: 0
+    }
+    {
+      _id: new ObjectId(<span class="hljs-string">'65f920134c813decc7e3031b'</span>),
+      account_id: <span class="hljs-string">'MDB999569789'</span>,
+      account_holder: <span class="hljs-string">'Charley Robson'</span>,
+      account_type: <span class="hljs-string">'savings'</span>,
+      balance: 4562.55,
+      __v: 0
+    }
+    ...
+</div></code></pre>
+<h3 id="find01js">find01.js</h3>
+<pre class="prettyprint"><code><div>const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+const uri = process.env.MONGODB_URL;
+
+const query = { account_holder: { <span class="hljs-variable">$regex</span>: /Robson/ }, balance: { <span class="hljs-variable">$gt</span>: 1000 } };
+
+const main = async () =&gt; {
+    try {
+        await mongoose.connect(uri);
+
+        console.log(<span class="hljs-string">'Connected to MongoDB...\n'</span>);
+
+        const result = await Account.find(query);
+
+        result.forEach(item =&gt; {
+            console.log(item);
+        });
+    } catch (error) {
+        console.error(`Error: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await mongoose.connection.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>returns.</p>
+<pre class="prettyprint"><code><div>    {
+      _id: new ObjectId(<span class="hljs-string">'65f91fed4a2f156e0a7693d3'</span>),
+      account_id: <span class="hljs-string">'MDB999569234'</span>,
+      account_holder: <span class="hljs-string">'James Robson'</span>,
+      account_type: <span class="hljs-string">'savings'</span>,
+      balance: 2345.99,
+      __v: 0
+    }
+    {
+      _id: new ObjectId(<span class="hljs-string">'65f920134c813decc7e3031b'</span>),
+      account_id: <span class="hljs-string">'MDB999569789'</span>,
+      account_holder: <span class="hljs-string">'Charley Robson'</span>,
+      account_type: <span class="hljs-string">'savings'</span>,
+      balance: 4562.55,
+      __v: 0
+    }
+    ...
+</div></code></pre>
+<p>This is a slightly more complex query but using <code>find()</code> in Mongoose is limited to relatively simple searches. For more complex searching use an aggregation framework.</p>
+<h2 id="aggregation-framework">Aggregation framework</h2>
+<p>See file:///C:/Git/node-mongodb/node-mongodbclient-f.html for notes on using aggregations.</p>
+<h3 id="aggregation01js">aggregation01.js</h3>
+<pre class="prettyprint"><code><div>const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+const uri = process.env.MONGODB_URL;
+
+const main = async () =&gt; {
+    try {
+        const connection = mongoose.connection;
+
+        connection.on(<span class="hljs-string">'error'</span>, console.error.bind(console, <span class="hljs-string">'MongoDB connection error:'</span>));
+        connection.once(<span class="hljs-string">'open'</span>, async () =&gt; {
+            console.log(<span class="hljs-string">'Connected to MongoDB...\n'</span>);
+
+            try {
+                const accounts = await Account.aggregate([
+                    { <span class="hljs-variable">$match</span>: { account_holder: { <span class="hljs-variable">$regex</span>: /Robson/ }, balance: { <span class="hljs-variable">$gt</span>: 1000 } } },
+                    { <span class="hljs-variable">$sort</span>: { account_holder: 1 } },
+                    { <span class="hljs-variable">$project</span>: { _id: 0, account_holder: 1, account_type: 1, balance: 1 } }
+                ]);
+
+                accounts.forEach(account =&gt; {
+                    console.log(account);
+                });
+            } catch (error) {
+                console.error(`Error querying the database: <span class="hljs-variable">${error}</span>`);
+            } finally {
+                await mongoose.connection.close();
+            }
+        });
+
+        await mongoose.connect(uri);
+    } catch (error) {
+        console.error(`Error: <span class="hljs-variable">${error}</span>`);
+    }
+};
+
+main();
+</div></code></pre>
+<p>Returns.</p>
+<pre class="prettyprint"><code><div>    Connected to MongoDB...
+
+    {
+      account_holder: <span class="hljs-string">'Andrew Robson'</span>,
+      account_type: <span class="hljs-string">'savings'</span>,
+      balance: 2345.75
+    }
+    {
+      account_holder: <span class="hljs-string">'Charley Robson'</span>,
+      account_type: <span class="hljs-string">'savings'</span>,
+      balance: 4562.55
+    }
+    ...
+</div></code></pre>
+<p>This allows us to use <code>$match</code>, <code>$sort</code> and <code>$project</code> to create more complex queries.</p>
+<h3 id="aggregation02js">aggregation02.js</h3>
+<pre class="prettyprint"><code><div>const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+const uri = process.env.MONGODB_URL;
+
+var pipeline = [{
+    <span class="hljs-variable">$match</span>: {
+        account_type: <span class="hljs-string">'savings'</span>,
+        balance: {
+            <span class="hljs-variable">$gt</span>: 1000
+        }
+    }
+}, {
+    <span class="hljs-variable">$project</span>: {
+        _id: 0,
+        account_holder: {
+            <span class="hljs-variable">$toUpper</span>: <span class="hljs-string">'$account_holder'</span>
+        },
+        balance: 1,
+        Account_type: {
+            <span class="hljs-variable">$toUpper</span>: <span class="hljs-string">'$account_type'</span>
+        }
+    }
+}]
+
+const main = async () =&gt; {
+    try {
+        const connection = mongoose.connection;
+
+        connection.on(<span class="hljs-string">'error'</span>, console.error.bind(console, <span class="hljs-string">'MongoDB connection error:'</span>));
+        connection.once(<span class="hljs-string">'open'</span>, async () =&gt; {
+            console.log(<span class="hljs-string">'Connected to MongoDB...\n'</span>);
+
+            try {
+                const accounts = await Account.aggregate(pipeline);
+
+                accounts.forEach(account =&gt; {
+                    console.log(account);
+                });
+            } catch (error) {
+                console.error(`Error querying the database: <span class="hljs-variable">${error}</span>`);
+            } finally {
+                await mongoose.connection.close();
+            }
+        });
+
+        await mongoose.connect(uri);
+    } catch (error) {
+        console.error(`Error: <span class="hljs-variable">${error}</span>`);
+    }
+};
+
+main();
+</div></code></pre>
+<p>Returns.</p>
+<pre class="prettyprint"><code><div>    {
+      balance: 2345.99,
+      account_holder: <span class="hljs-string">'JAMES ROBSON'</span>,
+      Account_type: <span class="hljs-string">'SAVINGS'</span>
+    }
+    {
+      balance: 4562.55,
+      account_holder: <span class="hljs-string">'CHARLEY ROBSON'</span>,
+      Account_type: <span class="hljs-string">'SAVINGS'</span>
+    }
+    ...
+</div></code></pre>
+<p>In this case we can modify the data being returned.</p>
+<h3 id="aggregation03js">aggregation03.js</h3>
+<pre class="prettyprint"><code><div>const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+const uri = process.env.MONGODB_URL;
+
+var pipeline = [{
+    <span class="hljs-variable">$match</span>: { account_type: <span class="hljs-string">'savings'</span>, balance: { <span class="hljs-variable">$gt</span>: 1000 } }
+}, {
+    <span class="hljs-variable">$sort</span>: { account_holder: 1 }
+}, {
+    <span class="hljs-variable">$project</span>: {
+        _id: 0,
+        account_id: 1,
+        account_holder: 1,
+        account_type: 1,
+        gbp_balance: { <span class="hljs-variable">$divide</span>: [<span class="hljs-string">'$balance'</span>, 1.5] },
+    },
+},
+]
+
+const main = async () =&gt; {
+    try {
+        const connection = mongoose.connection;
+
+        connection.on(<span class="hljs-string">'error'</span>, console.error.bind(console, <span class="hljs-string">'MongoDB connection error:'</span>));
+        connection.once(<span class="hljs-string">'open'</span>, async () =&gt; {
+            console.log(<span class="hljs-string">'Connected to MongoDB...\n'</span>);
+
+            try {
+                const accounts = await Account.aggregate(pipeline);
+
+                accounts.forEach(account =&gt; {
+                    console.log(account);
+                });
+            } catch (error) {
+                console.error(`Error querying the database: <span class="hljs-variable">${error}</span>`);
+            } finally {
+                await mongoose.connection.close();
+            }
+        });
+
+        await mongoose.connect(uri);
+    } catch (error) {
+        console.error(`Error: <span class="hljs-variable">${error}</span>`);
+    }
+};
+
+main();
+</div></code></pre>
+<p>Returns.</p>
+<pre class="prettyprint"><code><div>    {
+      account_id: <span class="hljs-string">'MDB999569522'</span>,
+      account_holder: <span class="hljs-string">'Andrew Robson'</span>,
+      account_type: <span class="hljs-string">'savings'</span>,
+      gbp_balance: 1563.8333333333333
+    }
+    {
+      account_id: <span class="hljs-string">'MDB999569789'</span>,
+      account_holder: <span class="hljs-string">'Charley Robson'</span>,
+      account_type: <span class="hljs-string">'savings'</span>,
+      gbp_balance: 3041.7000000000003
+    }
+    ...
+</div></code></pre>
+<p>In this case we are computing a value by converting the balance to British pounds.</p>
+<h2 id="updating-documents">Updating documents</h2>
+<h3 id="updateone-01js">updateOne-01.js</h3>
+<p>We can use <code>filter</code> and <code>update</code> values in the update command.</p>
+<pre class="prettyprint"><code><div>    const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+    const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+    const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+    dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+    const uri = process.env.MONGODB_URL;
+
+    const filter = { account_id: <span class="hljs-string">'MDB999569678'</span> };
+    const update = { <span class="hljs-variable">$set</span>: { account_holder: <span class="hljs-string">'Alan Robson'</span> } };
+
+    const main = async () =&gt; {
+        try {
+            await mongoose.connect(uri);
+
+            console.log(<span class="hljs-string">'Connected to MongoDB...\n'</span>);
+
+            const account = await Account.updateOne(filter, update);
+            console.log(account);
+        } catch (error) {
+            console.error(`Error: <span class="hljs-variable">${error}</span>`);
+        } finally {
+            await mongoose.connection.close();
+        }
+    };
+
+    main();
+</div></code></pre>
+<h3 id="updateone-02js">updateOne-02.js</h3>
+<pre class="prettyprint"><code><div>    const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+    const { ObjectId } = require(<span class="hljs-string">'mongodb'</span>); // Import ObjectId from <span class="hljs-string">'mongodb'</span>
+    const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+    const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+    dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+    const uri = process.env.MONGODB_URL;
+
+    const filter = { _id: new ObjectId(<span class="hljs-string">'65f91f7746cfa71788e09ec2'</span>) };
+    const update = { <span class="hljs-variable">$set</span>: { balance: 799.00 } };
+
+    const main = async () =&gt; {
+        try {
+            await mongoose.connect(uri);
+
+            console.log(<span class="hljs-string">'Connected to MongoDB...\n'</span>);
+
+            const account = await Account.updateOne(filter, update);
+            console.log(account);
+        } catch (error) {
+            console.error(`Error: <span class="hljs-variable">${error}</span>`);
+        } finally {
+            await mongoose.connection.close();
+        }
+    };
+
+    main();
+</div></code></pre>
+<p>When we want to work with an ObjectId value in a query we have to use the <strong>mongodb</strong> package. We also have to use <code>new</code> to create a new object in the filter.</p>
+<h3 id="updatemanyjs">updateMany.js</h3>
+<pre class="prettyprint"><code><div>    const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+    const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+    const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+    dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+    const uri = process.env.MONGODB_URL;
+
+    const filter = { account_holder: { <span class="hljs-variable">$regex</span>: /Mongo/ } };
+    const update = { <span class="hljs-variable">$set</span>: { account_holder: <span class="hljs-string">'Bob Johnson'</span> } };
+
+    const main = async () =&gt; {
+        try {
+            await mongoose.connect(uri);
+
+            console.log(<span class="hljs-string">'Connected to MongoDB...\n'</span>);
+
+            const account = await Account.updateMany(filter, update);
+            console.log(account);
+        } catch (error) {
+            console.error(`Error: <span class="hljs-variable">${error}</span>`);
+        } finally {
+            await mongoose.connection.close();
+        }
+    };
+
+    main();
+</div></code></pre>
+<h2 id="deleting-documents">Deleting documents</h2>
+<h3 id="deleteonejs">deleteOne.js</h3>
+<pre class="prettyprint"><code><div>const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+const uri = process.env.MONGODB_URL;
+
+const filter = { account_holder: <span class="hljs-string">'Luigi Robson'</span> };
+
+const main = async () =&gt; {
+    try {
+        await mongoose.connect(uri);
+
+        console.log(<span class="hljs-string">'Connected to MongoDB...\n'</span>);
+
+        const deletionResult = await Account.deleteOne(filter);
+
+        console.log(<span class="hljs-string">'Deletion result:'</span>, deletionResult);
+
+        console.log(<span class="hljs-string">'Number of documents deleted:'</span>, deletionResult.deletedCount);
+    } catch (error) {
+        console.error(`Error: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await mongoose.connection.close();
+    }
+};
+
+main();
+</div></code></pre>
+<p>Returns.</p>
+<pre class="prettyprint"><code><div>    Connected to MongoDB...
+
+    Deletion result: { acknowledged: <span class="hljs-literal">true</span>, deletedCount: 1 }
+    Number of documents deleted: 1
+</div></code></pre>
+<p>Delete a document using an <code>ObjectId</code>.</p>
+<h3 id="deleteone-02js">deleteOne-02.js</h3>
+<pre class="prettyprint"><code><div>const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+const { ObjectId } = require(<span class="hljs-string">'mongodb'</span>);
+const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+const uri = process.env.MONGODB_URL;
+
+const filter = { _id: new ObjectId(<span class="hljs-string">'65f933f9559dabc0f54c685f'</span>) };
+
+const main = async () =&gt; {
+    try {
+        await mongoose.connect(uri);
+
+        console.log(<span class="hljs-string">'Connected to MongoDB...\n'</span>);
+
+        const deletionResult = await Account.deleteOne(filter);
+
+        console.log(<span class="hljs-string">'Deletion result:'</span>, deletionResult);
+
+        console.log(<span class="hljs-string">'Number of documents deleted:'</span>, deletionResult.deletedCount);
+    } catch (error) {
+        console.error(`Error: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await mongoose.connection.close();
+    }
+};
+
+main();
+</div></code></pre>
+<h3 id="deletemanyjs">deleteMany.js</h3>
+<pre class="prettyprint"><code><div>const mongoose = require(<span class="hljs-string">'mongoose'</span>);
+const dotenv = require(<span class="hljs-string">'dotenv'</span>);
+const Account = require(<span class="hljs-string">'./models/bankModel'</span>);
+
+dotenv.config({ path: <span class="hljs-string">'./config/dev.env'</span> });
+
+const uri = process.env.MONGODB_URL;
+
+const filter = { account_holder: <span class="hljs-string">'Bert Smith'</span> };
+
+const main = async () =&gt; {
+    try {
+        await mongoose.connect(uri);
+
+        console.log(<span class="hljs-string">'Connected to MongoDB...\n'</span>);
+
+        const deletionResult = await Account.deleteMany(filter);
+
+        console.log(<span class="hljs-string">'Deletion result:'</span>, deletionResult);
+
+        console.log(<span class="hljs-string">'Number of documents deleted:'</span>, deletionResult.deletedCount);
+    } catch (error) {
+        console.error(`Error: <span class="hljs-variable">${error}</span>`);
+    } finally {
+        await mongoose.connection.close();
+    }
+};
+
+main();
+</div></code></pre>
+
+
+
+
+</div><!-- starter-template -->
+</div><!-- /.container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"/>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+</body>
+</html>
